@@ -109,4 +109,121 @@ const client = new Client({
         
         const eventName = eventMap[triggerType] || triggerType;
         
-        let code = `// ${triggerType}
+        let code = `// ${triggerType}イベント\n`;
+        code += `client.on('${eventName}', async (${this.getEventParamWithType(triggerType)}) => {\n`;
+        
+        this.indent();
+        
+        if (triggerType === 'messageCreate') {
+            code += `${this.getIndent()}if (message.author.bot) return;\n\n`;
+        }
+        
+        const indentedActions = actions.split('\n')
+            .map(line => line ? this.getIndent() + line : '')
+            .join('\n');
+        
+        code += indentedActions;
+        
+        this.dedent();
+        code += `});\n\n`;
+        
+        return code;
+    }
+    
+    getEventParamWithType(eventType) {
+        const paramMap = {
+            'messageCreate': 'message: Message',
+            'ready': '',
+            'messageReactionAdd': 'reaction: MessageReaction, user: User',
+            'guildMemberAdd': 'member: GuildMember',
+            'guildMemberRemove': 'member: GuildMember',
+            'messageUpdate': 'oldMessage: Message, newMessage: Message',
+            'messageDelete': 'message: Message',
+            'voiceStateUpdate': 'oldState: VoiceState, newState: VoiceState'
+        };
+        
+        return paramMap[eventType] || '...args: any[]';
+    }
+    
+    generateSendMessageCode(message) {
+        return `await message.channel.send(${message});\n`;
+    }
+    
+    generateAddReactionCode(emoji) {
+        return `await message.react(${emoji});\n`;
+    }
+    
+    generateCommandCode(command, actions) {
+        let code = `\n${this.getIndent()}// コマンド: ${command}\n`;
+        code += `${this.getIndent()}if (message.content.startsWith('${command}')) {\n`;
+        
+        this.indent();
+        const indentedActions = actions.split('\n')
+            .map(line => line ? this.getIndent() + line : '')
+            .join('\n');
+        
+        code += indentedActions;
+        this.dedent();
+        
+        code += `${this.getIndent()}}\n`;
+        return code;
+    }
+    
+    generateIfContainsCode(text, thenActions) {
+        let code = `\n${this.getIndent()}if (message.content.includes(${text})) {\n`;
+        
+        this.indent();
+        const indentedActions = thenActions.split('\n')
+            .map(line => line ? this.getIndent() + line : '')
+            .join('\n');
+        
+        code += indentedActions;
+        this.dedent();
+        
+        code += `${this.getIndent()}}\n`;
+        return code;
+    }
+    
+    generateWaitCode(seconds) {
+        return `await new Promise<void>(resolve => setTimeout(resolve, ${seconds * 1000}));\n`;
+    }
+    
+    generateSetVariableCode(varName, value) {
+        return `${varName} = ${value};\n`;
+    }
+    
+    generateCompareCode(a, b, op) {
+        const operators = {
+            'EQ': '===',
+            'NEQ': '!==',
+            'LT': '<',
+            'LTE': '<=',
+            'GT': '>',
+            'GTE': '>='
+        };
+        
+        return `${a} ${operators[op] || '==='} ${b}`;
+    }
+    
+    generateIfCode(condition, thenActions) {
+        let code = `\n${this.getIndent()}if (${condition}) {\n`;
+        
+        this.indent();
+        const indentedActions = thenActions.split('\n')
+            .map(line => line ? this.getIndent() + line : '')
+            .join('\n');
+        
+        code += indentedActions;
+        this.dedent();
+        
+        code += `${this.getIndent()}}\n`;
+        return code;
+    }
+    
+    generateLogin() {
+        return `\n// Botのログイン
+client.login(process.env.DISCORD_TOKEN)
+    .then(() => console.log('Bot logged in successfully'))
+    .catch(console.error);`;
+    }
+}
