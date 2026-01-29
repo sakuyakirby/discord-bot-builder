@@ -1,0 +1,110 @@
+{
+  "name": "ウェルカムBot",
+  "description": "新規メンバーを歓迎するシンプルなBot",
+  "language": "javascript",
+  "created": "2024-01-01",
+  "version": "1.0.0",
+  "blocks": [
+    {
+      "type": "discord_trigger",
+      "fields": {
+        "TRIGGER_TYPE": "guildMemberAdd"
+      },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_send_message",
+            "values": {
+              "MESSAGE": {
+                "type": "text_join",
+                "values": {
+                  "ADD0": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "🎉 ようこそ "
+                    }
+                  },
+                  "ADD1": {
+                    "type": "discord_get_author",
+                    "fields": {}
+                  },
+                  "ADD2": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": " さん！当サーバーへようこそ！\n自己紹介チャンネルで自己紹介をお願いします！"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "discord_trigger",
+      "fields": {
+        "TRIGGER_TYPE": "messageCreate"
+      },
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_if_message_contains",
+            "values": {
+              "TEXT": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "はじめまして"
+                }
+              }
+            },
+            "children": {
+              "THEN": [
+                {
+                  "type": "discord_send_message",
+                  "values": {
+                    "MESSAGE": {
+                      "type": "text",
+                      "fields": {
+                        "TEXT": "はじめまして！よろしくお願いします！"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "discord_add_reaction",
+                  "values": {
+                    "EMOJI": {
+                      "type": "text",
+                      "fields": {
+                        "TEXT": "👋"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "generatedCode": {
+    "javascript": "const { Client, GatewayIntentBits } = require('discord.js');\n\nconst client = new Client({\n    intents: [\n        GatewayIntentBits.Guilds,\n        GatewayIntentBits.GuildMessages,\n        GatewayIntentBits.MessageContent,\n        GatewayIntentBits.GuildMembers\n    ]\n});\n\n// Bot起動時\nclient.on('ready', () => {\n    console.log(`✅ Botが起動しました: ${client.user.tag}`);\n});\n\n// メンバー参加時\nclient.on('guildMemberAdd', async (member) => {\n    const channel = member.guild.systemChannel;\n    if (channel) {\n        await channel.send(`🎉 ようこそ ${member.user} さん！当サーバーへようこそ！\\n自己紹介チャンネルで自己紹介をお願いします！`);\n    }\n});\n\n// メッセージ受信時\nclient.on('messageCreate', async (message) => {\n    if (message.author.bot) return;\n    \n    // メッセージに「はじめまして」が含まれていたら\n    if (message.content.includes('はじめまして')) {\n        await message.channel.send('はじめまして！よろしくお願いします！');\n        await message.react('👋');\n    }\n});\n\n// Botのログイン\nclient.login('YOUR_BOT_TOKEN_HERE');\n",
+    "python": "import discord\nfrom discord.ext import commands\n\nintents = discord.Intents.default()\nintents.message_content = True\nintents.members = True\n\nbot = commands.Bot(command_prefix='!', intents=intents)\n\n@bot.event\nasync def on_ready():\n    print(f'✅ Botが起動しました: {bot.user}')\n\n@bot.event\nasync def on_member_join(member):\n    channel = member.guild.system_channel\n    if channel:\n        await channel.send(f'🎉 ようこそ {member.mention} さん！当サーバーへようこそ！\\n自己紹介チャンネルで自己紹介をお願いします！')\n\n@bot.event\nasync def on_message(message):\n    if message.author.bot:\n        return\n    \n    if 'はじめまして' in message.content:\n        await message.channel.send('はじめまして！よろしくお願いします！')\n        await message.add_reaction('👋')\n    \n    await bot.process_commands(message)\n\nbot.run('YOUR_BOT_TOKEN_HERE')",
+    "typescript": "import { Client, GatewayIntentBits, GuildMember, Message } from 'discord.js';\nimport dotenv from 'dotenv';\n\ndotenv.config();\n\nconst client = new Client({\n    intents: [\n        GatewayIntentBits.Guilds,\n        GatewayIntentBits.GuildMessages,\n        GatewayIntentBits.MessageContent,\n        GatewayIntentBits.GuildMembers\n    ]\n});\n\n// Bot起動時\nclient.on('ready', () => {\n    console.log(`✅ Botが起動しました: ${client.user?.tag}`);\n});\n\n// メンバー参加時\nclient.on('guildMemberAdd', async (member: GuildMember) => {\n    const channel = member.guild.systemChannel;\n    if (channel) {\n        await channel.send(`🎉 ようこそ ${member.user} さん！当サーバーへようこそ！\\n自己紹介チャンネルで自己紹介をお願いします！`);\n    }\n});\n\n// メッセージ受信時\nclient.on('messageCreate', async (message: Message) => {\n    if (message.author.bot) return;\n    \n    // メッセージに「はじめまして」が含まれていたら\n    if (message.content.includes('はじめまして')) {\n        await message.channel.send('はじめまして！よろしくお願いします！');\n        await message.react('👋');\n    }\n});\n\n// Botのログイン\nclient.login(process.env.DISCORD_TOKEN)\n    .then(() => console.log('Bot logged in successfully'))\n    .catch(console.error);"
+  },
+  "setupInstructions": {
+    "javascript": "1. Node.jsをインストール\n2. `npm install discord.js` を実行\n3. コード内の 'YOUR_BOT_TOKEN_HERE' をBotのトークンに置き換え\n4. `node bot.js` で実行",
+    "python": "1. Python 3.8以上をインストール\n2. `pip install discord.py` を実行\n3. コード内の 'YOUR_BOT_TOKEN_HERE' をBotのトークンに置き換え\n4. `python bot.py` で実行",
+    "typescript": "1. Node.jsをインストール\n2. `npm install discord.js typescript ts-node dotenv` を実行\n3. .envファイルに `DISCORD_TOKEN=your_token_here` を追加\n4. `ts-node bot.ts` で実行"
+  }
+}
