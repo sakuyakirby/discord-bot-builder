@@ -1,0 +1,114 @@
+{
+  "name": "ユーティリティBot",
+  "description": "様々な便利機能を持つBot",
+  "language": "javascript",
+  "created": "2024-01-01",
+  "version": "1.0.0",
+  "blocks": [
+    {
+      "type": "discord_command",
+      "fields": {
+        "COMMAND": "!ping"
+      },
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_send_message",
+            "values": {
+              "MESSAGE": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "🏓 Pong!"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "discord_command",
+      "fields": {
+        "COMMAND": "!time"
+      },
+      "position": {
+        "x": 100,
+        "y": 250
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_send_message",
+            "values": {
+              "MESSAGE": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "🕒 現在時刻: [時刻を表示]"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "discord_command",
+      "fields": {
+        "COMMAND": "!help"
+      },
+      "position": {
+        "x": 100,
+        "y": 400
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_send_message",
+            "values": {
+              "MESSAGE": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "📚 利用可能なコマンド:\n!ping - 応答をテスト\n!time - 現在時刻を表示\n!help - このメッセージを表示"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "discord_command",
+      "fields": {
+        "COMMAND": "!random"
+      },
+      "position": {
+        "x": 100,
+        "y": 550
+      },
+      "children": {
+        "ACTIONS": [
+          {
+            "type": "discord_send_message",
+            "values": {
+              "MESSAGE": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "🎲 ランダムな数: [1-100]"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "generatedCode": {
+    "javascript": "const { Client, GatewayIntentBits } = require('discord.js');\n\nconst client = new Client({\n    intents: [\n        GatewayIntentBits.Guilds,\n        GatewayIntentBits.GuildMessages,\n        GatewayIntentBits.MessageContent\n    ]\n});\n\n// Bot起動時\nclient.on('ready', () => {\n    console.log(`✅ Botが起動しました: ${client.user.tag}`);\n});\n\n// メッセージ受信時\nclient.on('messageCreate', async (message) => {\n    if (message.author.bot) return;\n    \n    // コマンド: !ping\n    if (message.content.startsWith('!ping')) {\n        await message.channel.send('🏓 Pong!');\n    }\n    \n    // コマンド: !time\n    if (message.content.startsWith('!time')) {\n        const now = new Date();\n        await message.channel.send(`🕒 現在時刻: ${now.toLocaleString()}`);\n    }\n    \n    // コマンド: !help\n    if (message.content.startsWith('!help')) {\n        await message.channel.send('📚 利用可能なコマンド:\\n!ping - 応答をテスト\\n!time - 現在時刻を表示\\n!help - このメッセージを表示\\n!random - ランダムな数を表示');\n    }\n    \n    // コマンド: !random\n    if (message.content.startsWith('!random')) {\n        const randomNum = Math.floor(Math.random() * 100) + 1;\n        await message.channel.send(`🎲 ランダムな数: ${randomNum}`);\n    }\n});\n\n// Botのログイン\nclient.login('YOUR_BOT_TOKEN_HERE');\n",
+    "python": "import discord\nimport random\nfrom datetime import datetime\nfrom discord.ext import commands\n\nintents = discord.Intents.default()\nintents.message_content = True\n\nbot = commands.Bot(command_prefix='!', intents=intents)\n\n@bot.event\nasync def on_ready():\n    print(f'✅ Botが起動しました: {bot.user}')\n\n@bot.command()\nasync def ping(ctx):\n    await ctx.send('🏓 Pong!')\n\n@bot.command()\nasync def time(ctx):\n    now = datetime.now()\n    await ctx.send(f'🕒 現在時刻: {now.strftime(\"%Y-%m-%d %H:%M:%S\")}')\n\n@bot.command()\nasync def help(ctx):\n    await ctx.send('📚 利用可能なコマンド:\\n!ping - 応答をテスト\\n!time - 現在時刻を表示\\n!help - このメッセージを表示\\n!random - ランダムな数を表示')\n\n@bot.command()\nasync def random_cmd(ctx):\n    random_num = random.randint(1, 100)\n    await ctx.send(f'🎲 ランダムな数: {random_num}')\n\nbot.run('YOUR_BOT_TOKEN_HERE')",
+    "typescript": "import { Client, GatewayIntentBits, Message } from 'discord.js';\nimport dotenv from 'dotenv';\n\ndotenv.config();\n\nconst client = new Client({\n    intents: [\n        GatewayIntentBits.Guilds,\n        GatewayIntentBits.GuildMessages,\n        GatewayIntentBits.MessageContent\n    ]\n});\n\n// Bot起動時\nclient.on('ready', () => {\n    console.log(`✅ Botが起動しました: ${client.user?.tag}`);\n});\n\n// メッセージ受信時\nclient.on('messageCreate', async (message: Message) => {\n    if (message.author.bot) return;\n    \n    // コマンド: !ping\n    if (message.content.startsWith('!ping')) {\n        await message.channel.send('🏓 Pong!');\n    }\n    \n    // コマンド: !time\n    if (message.content.startsWith('!time')) {\n        const now = new Date();\n        await message.channel.send(`🕒 現在時刻: ${now.toLocaleString()}`);\n    }\n    \n    // コマンド: !help\n    if (message.content.startsWith('!help')) {\n        await message.channel.send('📚 利用可能なコマンド:\\n!ping - 応答をテスト\\n!time - 現在時刻を表示\\n!help - このメッセージを表示\\n!random - ランダムな数を表示');\n    }\n    \n    // コマンド: !random\n    if (message.content.startsWith('!random')) {\n        const randomNum = Math.floor(Math.random() * 100) + 1;\n        await message.channel.send(`🎲 ランダムな数: ${randomNum}`);\n    }\n});\n\n// Botのログイン\nclient.login(process.env.DISCORD_TOKEN)\n    .then(() => console.log('Bot logged in successfully'))\n    .catch(console.error);"
+  }
+}
