@@ -1,0 +1,275 @@
+/* Blocklyのカスタムスタイル */
+.blocklyMainBackground {
+    stroke: none;
+    fill: #1e1f29;
+}
+
+.blocklyScrollbarHandle {
+    fill: #5865F2;
+    rx: 6px;
+    ry: 6px;
+}
+
+.blocklyScrollbarBackground:hover+.blocklyScrollbarHandle,
+.blocklyScrollbarHandle:hover {
+    fill: #4752c4;
+}
+
+/* ブロックのスタイル */
+.blocklyEditableText>rect {
+    fill: #2f3136;
+    stroke: #4f545c;
+}
+
+.blocklyText {
+    fill: #f6f6f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ワークスペースのグリッド */
+.blocklyGridPattern>path {
+    stroke: #2f3136;
+}
+
+/* ツールボックス */
+.blocklyToolboxDiv {
+    background-color: #2f3136;
+    border-right: 1px solid #4f545c;
+}
+
+.blocklyTreeRow {
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 4px;
+    padding: 0 16px;
+    color: #b9bbbe;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.blocklyTreeRow:hover {
+    background-color: #36393f;
+    color: white;
+}
+
+.blocklyTreeSelected {
+    background-color: #5865F2 !important;
+    color: white !important;
+}
+
+.blocklyTreeIcon {
+    display: none;
+}
+
+.blocklyTreeLabel {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+/* ツールチップ */
+.blocklyTooltipDiv {
+    background-color: #2f3136;
+    border: 1px solid #5865F2;
+    border-radius: 4px;
+    color: #f6f6f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 8px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ドラッグ中のブロック */
+.blocklyDraggable {
+    cursor: grab;
+}
+
+.blocklyDragging {
+    cursor: grabbing;
+    opacity: 0.8;
+}
+
+/* 接続ポイント */
+.blocklyConnectionHighlight {
+    stroke: #57F287;
+    stroke-width: 3px;
+}
+
+/* フィールド */
+.blocklyDropdownText {
+    fill: #f6f6f7;
+}
+
+.blocklyDropdownArrow {
+    fill: #b9bbbe;
+}
+
+/* 数値フィールド */
+.blocklyFieldNumber>input {
+    background-color: #2f3136;
+    border: 1px solid #4f545c;
+    color: #f6f6f7;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+/* テキストフィールド */
+.blocklyFieldTextInput>input {
+    background-color: #2f3136;
+    border: 1px solid #4f545c;
+    color: #f6f6f7;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+/* 変数フィールド */
+.blocklyFieldVariable .blocklyMenuText {
+    color: #f6f6f7;
+}
+
+/* フライアウト（ブロックパレット） */
+.blocklyFlyout {
+    background-color: #36393f;
+    border-right: 1px solid #4f545c;
+}
+
+.blocklyFlyoutScrollbar {
+    display: none;
+}
+
+/* ズームコントロール */
+.blocklyZoomControls {
+    background-color: #2f3136;
+    border-radius: 4px;
+    border: 1px solid #4f545c;
+    padding: 8px;
+}
+
+.blocklyZoom {
+    background-color: #36393f;
+    border: none;
+    color: #b9bbbe;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    margin: 2px 0;
+    transition: all 0.2s;
+}
+
+.blocklyZoom:hover {
+    background-color: #4f545c;
+    color: white;
+}
+
+/* ゴミ箱 */
+.blocklyTrash {
+    fill: #ED4245;
+}
+
+.blocklyTrash:hover {
+    fill: #c63639;
+}
+
+/* カスタムブロックの色 */
+.blocklyColour_230 { /* Discordカラー */
+    fill: #5865F2;
+    stroke: #4752c4;
+}
+
+.blocklyColour_230 .blocklyPathLight {
+    fill: #7983f5;
+}
+
+.blocklyColour_120 { /* アクションカラー */
+    fill: #57F287;
+    stroke: #46d076;
+}
+
+.blocklyColour_120 .blocklyPathLight {
+    fill: #78f4a0;
+}
+
+.blocklyColour_210 { /* ロジックカラー */
+    fill: #faa61a;
+    stroke: #e6950a;
+}
+
+.blocklyColour_210 .blocklyPathLight {
+    fill: #fbb848;
+}
+
+.blocklyColour_330 { /* 変数カラー */
+    fill: #eb459e;
+    stroke: #d4348d;
+}
+
+.blocklyColour_330 .blocklyPathLight {
+    fill: #ef65b1;
+}
+
+.blocklyColour_160 { /* テキストカラー */
+    fill: #5b6eae;
+    stroke: #4a5d9d;
+}
+
+.blocklyColour_160 .blocklyPathLight {
+    fill: #7c8cbf;
+}
+
+.blocklyColour_290 { /* 関数カラー */
+    fill: #9b84ee;
+    stroke: #8a73dd;
+}
+
+.blocklyColour_290 .blocklyPathLight {
+    fill: #b09ef2;
+}
+
+/* ブロックの影 */
+.blocklyDraggable .blocklyPath {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* 挿入マーカー */
+.blocklyInsertionMarker>.blocklyPath {
+    fill-opacity: 0.2;
+    stroke: #57F287;
+    stroke-width: 2px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .blocklyToolboxDiv {
+        width: 200px !important;
+    }
+    
+    .blocklyTreeLabel {
+        font-size: 12px;
+    }
+    
+    .blocklyTreeRow {
+        height: 36px;
+        line-height: 36px;
+        padding: 0 12px;
+    }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+    .blocklyMainBackground {
+        fill: #0c0d10;
+    }
+    
+    .blocklyToolboxDiv {
+        background-color: #1a1b1e;
+    }
+}
+
+/* アニメーション */
+@keyframes blockPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.blocklyHighlightedBlock {
+    animation: blockPulse 1s infinite;
+}
