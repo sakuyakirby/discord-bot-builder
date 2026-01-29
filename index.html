@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bot Builder - コード生成ツール</title>
+    
+    <!-- BlocklyのCDN -->
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <link href="https://unpkg.com/blockly/blockly.min.css" rel="stylesheet">
+    
+    <!-- ハイライト用 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    <!-- アイコン -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 独自CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/blockly-custom.css">
+</head>
+<body>
+    <div id="app">
+        <!-- ヘッダー -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Discord Bot Builder</h1>
+            </div>
+            <nav>
+                <button id="btn-templates"><i class="fas fa-th-large"></i> テンプレート</button>
+                <button id="btn-tutorial"><i class="fas fa-graduation-cap"></i> 使い方</button>
+                <button id="btn-examples"><i class="fas fa-code"></i> サンプル</button>
+            </nav>
+        </header>
+        
+        <!-- メインコンテンツ -->
+        <main>
+            <!-- 左ペイン: ツールボックス & エディタ -->
+            <section class="left-panel">
+                <div class="toolbox-header">
+                    <h3><i class="fas fa-toolbox"></i> ブロックパレット</h3>
+                    <div class="toolbox-categories" id="toolbox-categories"></div>
+                </div>
+                <div id="blocklyDiv" class="blockly-workspace"></div>
+                <div class="workspace-controls">
+                    <button id="btn-clear"><i class="fas fa-trash"></i> クリア</button>
+                    <button id="btn-save"><i class="fas fa-save"></i> 保存</button>
+                    <button id="btn-load"><i class="fas fa-folder-open"></i> 開く</button>
+                </div>
+            </section>
+            
+            <!-- 中央ペイン: コードプレビュー -->
+            <section class="center-panel">
+                <div class="tab-header">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="code">コード</button>
+                        <button class="tab" data-tab="config">設定</button>
+                        <button class="tab" data-tab="preview">プレビュー</button>
+                    </div>
+                    <div class="language-selector">
+                        <select id="language-select">
+                            <option value="javascript">JavaScript</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="python">Python</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="tab-code" class="tab-pane active">
+                        <div class="code-header">
+                            <h4><i class="fas fa-code"></i> 生成されたコード</h4>
+                            <div class="code-actions">
+                                <button id="btn-copy"><i class="fas fa-copy"></i></button>
+                                <button id="btn-format"><i class="fas fa-indent"></i></button>
+                                <button id="btn-download"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                        <pre><code id="generated-code" class="language-javascript"></code></pre>
+                    </div>
+                    
+                    <div id="tab-config" class="tab-pane">
+                        <!-- 設定パネル -->
+                    </div>
+                    
+                    <div id="tab-preview" class="tab-pane">
+                        <!-- プレビューパネル -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 右ペイン: エクスポート & ガイド -->
+            <section class="right-panel">
+                <div class="export-panel">
+                    <h3><i class="fas fa-rocket"></i> エクスポート</h3>
+                    <div class="export-options">
+                        <button id="btn-export-js" class="export-btn">
+                            <i class="fab fa-js-square"></i> JavaScript
+                        </button>
+                        <button id="btn-export-ts" class="export-btn">
+                            <i class="fas fa-file-code"></i> TypeScript
+                        </button>
+                        <button id="btn-export-py" class="export-btn">
+                            <i class="fab fa-python"></i> Python
+                        </button>
+                        <button id="btn-export-full" class="export-btn primary">
+                            <i class="fas fa-file-archive"></i> 完全パッケージ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="guide-panel">
+                    <h3><i class="fas fa-question-circle"></i> 使い方</h3>
+                    <ol class="guide-steps">
+                        <li>左側でブロックを組み立てる</li>
+                        <li>中央でコードを確認</li>
+                        <li>右側でエクスポート</li>
+                        <li>自分でホスティング！</li>
+                    </ol>
+                    
+                    <div class="quick-links">
+                        <h4>🔗 クイックリンク</h4>
+                        <a href="#guide-discord" class="quick-link">
+                            <i class="fab fa-discord"></i> Discord Bot作成
+                        </a>
+                        <a href="#guide-replit" class="quick-link">
+                            <i class="fas fa-cloud"></i> Replitで動かす
+                        </a>
+                        <a href="#guide-railway" class="quick-link">
+                            <i class="fas fa-train"></i> Railwayで動かす
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- フッター -->
+        <footer>
+            <p>
+                <i class="fas fa-exclamation-triangle"></i>
+                このツールはコードを生成するだけです。生成したコードの実行は自己責任で行ってください。
+            </p>
+            <div class="footer-links">
+                <a href="#privacy">プライバシーポリシー</a>
+                <a href="#terms">利用規約</a>
+                <a href="https://github.com/yourname/discord-bot-builder" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- モーダルなど -->
+    <div id="modal-templates" class="modal"></div>
+    <div id="modal-tutorial" class="modal"></div>
+    
+    <!-- JavaScriptファイル -->
+    <script src="blocks/discord-blocks.js"></script>
+    <script src="blocks/logic-blocks.js"></script>
+    <script src="blocks/variable-blocks.js"></script>
+    
+    <script src="generators/JavaScriptGenerator.js"></script>
+    <script src="generators/PythonGenerator.js"></script>
+    <script src="generators/TypeScriptGenerator.js"></script>
+    
+    <script src="utils/blockly-utils.js"></script>
+    <script src="utils/code-formatter.js"></script>
+    <script src="utils/export-utils.js"></script>
+    <script src="utils/template-loader.js"></script>
+    
+    <script src="components/BlockEditor.js"></script>
+    <script src="components/CodeViewer.js"></script>
+    <script src="components/ExportPanel.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
