@@ -1,0 +1,20 @@
+{
+  "name": "discord-bot-builder",
+  "version": "1.0.0",
+  "description": "Visual Discord Bot Code Generator",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'No build step required for static site'",
+    "deploy": "echo 'Run: npm run deploy:netlify or npm run deploy:github'",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy:github": "gh-pages -d ."
+  },
+  "keywords": ["discord", "bot", "blockly", "code-generator"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0",
+    "gh-pages": "^5.0.0"
+  }
+}
